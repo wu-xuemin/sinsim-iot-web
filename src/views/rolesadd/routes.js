@@ -41,7 +41,7 @@ export const Route = [
         component: 'equipment/index',
         name: 'equipment',
         meta: {
-          title: '设备列表',
+          title: 'IOT机器列表',
           icon: 'component'
         }
       }

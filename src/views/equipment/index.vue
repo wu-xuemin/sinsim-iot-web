@@ -75,80 +75,90 @@
       </div>
 
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column label="设备ID" prop="device_id" align="center">
+        <el-table-column label="铭牌号" prop="device_id" align="center">
           <template slot-scope="{ row }">
-            <span>{{ row.device_id }}</span>
+            <span>{{ row.nameplate }}</span>
           </template>
         </el-table-column>
 
         <el-table-column
-          label="设备名称"
-          prop="device_meta.device_name"
+          label="型号"
           align="center"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.device_meta.device_name }}</span>
+            <span>{{ row.machineModelInfo }}</span>
           </template>
         </el-table-column>
 
         <el-table-column
-          label="设备类型"
-          prop="device_meta.type"
+          label="已开机时间"
           align="center"
         >
           <template slot-scope="{ row }">
-            <span v-if="row.device_meta.type == 2">门禁</span>
-            <span v-else-if="row.device_meta.type == 3">闸机</span>
-            <span v-else>抓拍机</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column label="版本" prop="device_meta.version" align="center">
-          <template slot-scope="{ row }">
-            <span v-if="row.device_meta.version == null || row.deviceName == ''"
-              >--</span
-            >
-            <span v-else>{{ row.device_meta.version }}</span>
+            <span>{{ row.uptime }}</span>
           </template>
         </el-table-column>
 
         <el-table-column
-          label="设备位置"
-          prop="device_meta.location"
-          align="center"
+                label="刺绣时间"
+                align="center"
         >
           <template slot-scope="{ row }">
-            <span
-              v-if="
-                row.device_meta.location == null ||
-                row.device_meta.location == ''
-              "
-              >--</span
-            >
-            <span v-else>{{ row.device_meta.location }}</span>
+            <span>{{ row.workingTime }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="设备状态" align="center">
+        <el-table-column
+                label="停机时间"
+                align="center"
+        >
           <template slot-scope="{ row }">
-            <div>
-              <span>
-                <i
-                  :class="
-                    getDeviceStateIcon(
-                      row.deviceStatus.status,
-                      row.deviceStatus.status_detail
-                    )
-                  "
-                ></i>
-                {{
-                  getDeviceState(
-                    row.deviceStatus.status,
-                    row.deviceStatus.status_detail
-                  )
-                }}</span
-              >
-            </div>
+            <span>{{ row.nonworkingTime }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+                label="断线次数"
+                align="center"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.lineBrokenNumber }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+                label="平均断线时间"
+                align="center"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.lineBrokenAverageTime }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+                label="工件总数"
+                align="center"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.productTotalNumber }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+                label="开机次数"
+                align="center"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.powerOnTimes }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+                label="累计针数"
+                align="center"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.needleTotalNumber }}</span>
           </template>
         </el-table-column>
       </el-table>

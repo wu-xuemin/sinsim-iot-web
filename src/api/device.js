@@ -11,7 +11,9 @@ import request from '@/utils/request'
 // 分页
 export function getDeviceSearch(data) {
   return request({
-    url: '/device/info/list',
+    // url: '/device/info/list',
+    url: '/iot/machine/list',
+
     method: 'post',
     data
   })

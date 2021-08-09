@@ -56,7 +56,8 @@
                        align="center"
                        width="230"
                        class-name="small-padding fixed-width">
-        <template v-if="row.roleId != 1"
+        <!--v-if="row.roleId != 1"-->
+        <template
                   slot-scope="{ row, $index }">
           <i class="el-icon-edit"
              style="margin-right: 20px; cursor: pointer"
