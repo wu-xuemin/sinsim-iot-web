@@ -214,7 +214,8 @@ export default {
 
 
     getDeviceSearch() {
-      return selectIotMachine(this.listQuery.nameplate, this.listQuery.machineModelInfo)
+//        return selectIotMachine(this.listQuery.nameplate, this.listQuery.machineModelInfo)
+        return selectIotMachine(this.listQuery)
         .then((res) => {
           this.tableData = res.data.list
           this.total = res.data.total

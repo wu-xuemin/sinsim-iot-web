@@ -20,13 +20,15 @@ export function getDeviceSearch(data) {
 }
 
 //按条件查找IOT机器
-export function selectIotMachine(nameplate, machineModelInfo) {
+// export function selectIotMachine(nameplate, machineModelInfo) {
+export function selectIotMachine(data) {
+
   return request({
     // url: '/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}',
-    url: `/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}`,
-
+    // url: `/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}`,
+    url: '/iot/machine/selectIotMachine',
     method: 'post',
-
+    data
   })
 }
 
