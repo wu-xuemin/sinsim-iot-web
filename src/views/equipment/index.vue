@@ -3,31 +3,63 @@
 
     <div>
       <div class="filter-container">
-        <el-input
-          v-model="listQuery.nameplate"
-          style="width: 300px"
-          class="filter-item"
-          @keyup.enter.native="handleFilter"
-          prefix-icon="el-icon-search"
-          placeholder="输入铭牌号"
-          clearable
-        />
-        <el-input
-                v-model="listQuery.machineModelInfo"
-                style="width: 300px"
-                class="filter-item"
-                @keyup.enter.native="handleFilter"
-                prefix-icon="el-icon-search"
-                placeholder="输入型号"
-                clearable
-        />
-        <el-button
-          class="filter-item"
-          style="margin-left: 10px"
-          type="primary"
-          @click="handleFilter"
-          >搜索</el-button
-        >
+        <el-row>
+
+
+          <!--<el-form :  label-position="right" label-width="80px">-->
+            <!--<el-row>-->
+              <el-col :span="6">
+                  <el-input
+                          v-model="listQuery.nameplate"
+                          style="width: 300px"
+                          class="filter-item"
+                          @keyup.enter.native="handleFilter"
+                          prefix-icon="el-icon-search"
+                          placeholder="输入铭牌号"
+                          clearable
+                  />
+                </el-col>
+
+              <el-col :span="6">
+                <el-input
+                        v-model="listQuery.machineModelInfo"
+                        style="width: 300px"
+                        class="filter-item"
+                        @keyup.enter.native="handleFilter"
+                        prefix-icon="el-icon-search"
+                        placeholder="输入型号"
+                        clearable
+                />
+              </el-col>
+
+              <el-col :span="8">
+                <!--<el-form-item label="创建日期:">-->
+                  <el-date-picker
+                          v-model="listQuery.selectDate"
+                          type="daterange"
+                          align="left"
+                          unlink-panels
+                          range-separator="—"
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                          :picker-options="pickerOptions"
+                  ></el-date-picker>
+                <!--</el-form-item>-->
+              </el-col>
+
+              <el-col :span="4">
+              <el-button
+                      class="filter-item"
+                      style="margin-left: 10px"
+                      type="primary"
+                      @click="handleFilter"
+              >搜索</el-button
+              >
+                </el-col>
+            <!--</el-row>-->
+
+          <!--</el-form>-->
+          </el-row>
       </div>
 
       <el-table :data="tableData" style="width: 100%">
@@ -159,6 +191,9 @@ import { updatePage } from '@/utils/update-page'
 import request from '@/utils/request'
 import md5 from 'blueimp-md5'
 
+import  moment from 'moment';
+//Vue.prototype.$moment = moment;
+
 let cityOptions = []
 const DeviceState = {
   all: '全部状态',
@@ -188,14 +223,52 @@ export default {
     return {
       total: 0,
       value: [],
+
       listQuery: {
+        account:'',
         nameplate: '',
         machineModelInfo: '',
+        selectDate:'',
+        queryStartTime:'',
+        queryEndTime:'',
         page: 1,
         limit: 10,
       },
       tableData: [],
       account: '',
+
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+
     }
   },
 
@@ -214,6 +287,25 @@ export default {
 
 
     getDeviceSearch() {
+      if (
+              this.listQuery.selectDate != null &&
+              this.listQuery.selectDate.length > 0
+      ) {
+        //  String "2021-08-09": not a valid Long value
+//        this.listQuery.queryStartTime = this.listQuery.selectDate[0].format(
+//                "yyyy-MM-dd"
+//        ) ;
+//
+//
+//        this.listQuery.queryEndTime = this.listQuery.selectDate[1].format(
+//                "yyyy-MM-dd"
+//        );
+//
+//        //date转换为时间戳
+        this.listQuery.queryStartTime = moment(this.listQuery.selectDate[0]).unix();
+        this.listQuery.queryEndTime = moment(this.listQuery.selectDate[1]).unix();
+//        this.listQuery.queryEndTime = moment(this.listQuery.selectDate[1]).format("YYYY-MM-dd");
+      }
 //        return selectIotMachine(this.listQuery.nameplate, this.listQuery.machineModelInfo)
         return selectIotMachine(this.listQuery)
         .then((res) => {
