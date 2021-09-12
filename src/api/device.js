@@ -22,9 +22,11 @@ export function getDeviceSearch(data) {
 //按条件查找IOT机器
 // export function selectIotMachine(nameplate, machineModelInfo) {
 export function selectIotMachine(data) {
-
+// export function selectIotMachine(nameplate, machineModelInfo,account,queryStartTime,queryEndTime) {
+// export function selectIotMachine(nameplate, machineModelInfo,account) {
   return request({
-    // url: '/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}',
+    // url: '/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}&account=${account}&queryStartTime=${queryStartTime}&queryEndTime=${queryEndTime}',
+    // url: '/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}&account=${account}',
     // url: `/iot/machine/selectIotMachine?nameplate=${nameplate}&machineModelInfo=${machineModelInfo}`,
     url: '/iot/machine/selectIotMachine',
     method: 'post',

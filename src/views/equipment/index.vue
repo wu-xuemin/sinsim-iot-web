@@ -284,38 +284,25 @@ export default {
       this.getDeviceSearch()
     },
 
+/// 保持一致的风格
 
-
+    //  列表
     getDeviceSearch() {
-      if (
-              this.listQuery.selectDate != null &&
-              this.listQuery.selectDate.length > 0
-      ) {
-        //  String "2021-08-09": not a valid Long value
-//        this.listQuery.queryStartTime = this.listQuery.selectDate[0].format(
-//                "yyyy-MM-dd"
-//        ) ;
-//
-//
-//        this.listQuery.queryEndTime = this.listQuery.selectDate[1].format(
-//                "yyyy-MM-dd"
-//        );
-//
-//        //date转换为时间戳
-        this.listQuery.queryStartTime = moment(this.listQuery.selectDate[0]).unix();
-        this.listQuery.queryEndTime = moment(this.listQuery.selectDate[1]).unix();
-//        this.listQuery.queryEndTime = moment(this.listQuery.selectDate[1]).format("YYYY-MM-dd");
-      }
-//        return selectIotMachine(this.listQuery.nameplate, this.listQuery.machineModelInfo)
-        return selectIotMachine(this.listQuery)
-        .then((res) => {
-          this.tableData = res.data.list
-          this.total = res.data.total
-          return res
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      if(this.listQuery.selectDate != null &&this.listQuery.selectDate.length > 0) {
+        this.listQuery.queryStartTime = moment(this.listQuery.selectDate[0].format("yyyy-MM-dd")).valueOf();
+        this.listQuery.queryEndTime = moment(this.listQuery.selectDate[1].format("yyyy-MM-dd")).valueOf();
+
+        ;
+        }
+      return selectIotMachine(this.listQuery)
+              .then((res) => {
+        this.tableData = res.data.list
+        this.total = res.data.total
+        return res
+      })
+    .catch((err) => {
+        console.log(err)
+      })
     },
 
 
