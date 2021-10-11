@@ -1,5 +1,5 @@
 module.exports = {
-  title: '泰康考勤管理平台',
+  title: 'SINSIM物联网平台',
 
   /**
    * @type {boolean} true | false

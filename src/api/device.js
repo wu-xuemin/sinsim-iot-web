@@ -34,6 +34,15 @@ export function selectIotMachine(data) {
   })
 }
 
+//查询mysql里的IOT机器信息
+ export function selectIotMachineBaseInfo(page, size, account, nameplate, machineModelInfo){
+
+  return request({
+    url: `/iot/machine/selectIotMachineBaseInfo?page=${page}&size=${size}&nameplate=${nameplate}&machineModelInfo=${machineModelInfo}&account=${account}`,
+    method: 'post',
+
+  })
+}
 
 //更新
 export function updataDevice(account, data) {

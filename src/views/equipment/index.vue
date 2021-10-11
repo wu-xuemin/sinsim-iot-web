@@ -178,7 +178,8 @@ import { ErrorMsg, SuccessMsg } from '@/utils/message'
 
 import {
         getDeviceSearch,
-        selectIotMachine
+        selectIotMachine,
+        selectIotMachineBaseInfo
 } from '@/api/device'
 
 import {
@@ -294,7 +295,14 @@ export default {
 
         ;
         }
-      return selectIotMachine(this.listQuery)
+ 
+//      return selectIotMachine(this.listQuery)
+      return selectIotMachineBaseInfo(
+              this.listQuery.page,
+              this.listQuery.limit,
+              this.listQuery.account,
+              this.listQuery.nameplate,
+              this.listQuery.machineModelInfo)
               .then((res) => {
         this.tableData = res.data.list
         this.total = res.data.total

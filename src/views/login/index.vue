@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">泰康考勤管理平台</h3>
+        <h3 class="title">SINSIM物联网平台</h3>
       </div>
 
       <el-form-item prop="username">
