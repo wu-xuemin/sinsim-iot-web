@@ -129,7 +129,7 @@
               <div class="el-step__icon is-text">
                 <div class="el-step__icon-inner">4</div>
               </div>
-              <div class="step-center">IOT机器列表</div>
+              <div class="step-center">IOT机器管理，在数据库</div>
             </div>
             <div class="item-info" style="width: 100%;
     justify-content: end;">

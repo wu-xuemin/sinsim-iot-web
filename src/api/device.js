@@ -44,6 +44,15 @@ export function selectIotMachine(data) {
   })
 }
 
+//从售后获取机器的机型信息
+export function getMachineModelInfoFromAftersale(nameplate) {
+
+  return request({
+    url: `/iot/machine/getMachineModelInfoFromAftersale?nameplate=${nameplate}`,
+    method: 'post',
+
+  })
+}
 //更新
 export function updataDevice(account, data) {
   return request({

@@ -62,7 +62,8 @@
           </el-row>
       </div>
 
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="tableData" style="width: 100%"
+                @row-click="clickRowToShowMachineDetail">
         <el-table-column label="铭牌号" prop="device_id" align="center">
           <template slot-scope="{ row }">
             <span>{{ row.nameplate }}</span>
@@ -158,6 +159,31 @@
         @pagination="getDeviceSearch"
       />
     </div>
+    <el-dialog :visible.sync="iotDetailVisible" fullscreen @close="dialogCloseCallback()">
+      <el-row type="flex" class="row-bg" justify="center">
+        <el-col :span="24">
+          <div style="text-align: center; font-weight: bold; font-size: 28px; font-family: 'Microsoft YaHei UI';padding-bottom: 20px">
+            {{dialogTitle}}
+          </div>
+          <el-form :model="iotMachineBasicFromAftersale" >
+            <el-card class="box-card" style="margin: 25px">
+
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="铭牌号：">
+                    <el-input v-model="iotMachineBasicFromAftersale.nameplate" disabled></el-input>
+                  </el-form-item>
+                </el-col>
+
+              </el-row>
+
+            </el-card>
+
+          </el-form>
+        </el-col>
+      </el-row>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -179,7 +205,8 @@ import { ErrorMsg, SuccessMsg } from '@/utils/message'
 import {
         getDeviceSearch,
         selectIotMachine,
-        selectIotMachineBaseInfo
+        selectIotMachineBaseInfo,
+        getMachineModelInfoFromAftersale,
 } from '@/api/device'
 
 import {
@@ -269,17 +296,36 @@ export default {
           }
         ]
       },
-
+      iotDetailVisible: false,
+      dialogTitle:"",
+      iotDetailInfo:
+      {
+        nameplate:""
+      },
+      //从售后获取的，机器的基本信息
+      iotMachineBasicFromAftersale:
+      {
+        nameplate:""
+      }
     }
   },
 
   created() {
     // 自动更新 //不需要
-//    updatePage(this.getDeviceSearch, true)
     this.getDeviceSearch()
     this.account = JSON.parse(Cookies.get('User')).account
   },
   methods: {
+    clickRowToShowMachineDetail(row, event, column) {
+      console.log("=========")
+      console.log(row,  event,  column)
+      this.isError = false;
+      this.errorMsg = '';
+      this.dialogTitle = '机器详情';
+      this.getMachineModelInfoFromAftersale(row );
+      this.getIotDeviceDetailInfo(row );
+      this.iotDetailVisible = true;
+    },
 
     handleFilter() {
       this.getDeviceSearch()
@@ -313,7 +359,35 @@ export default {
       })
     },
 
+//  查询某机器的具体信息（包括历史数据）
+    getIotDeviceDetailInfo(row) {
+      this.listQuery.nameplate = row.nameplate;
+      return selectIotMachine(this.listQuery)
+              .then((res) => {
+                this.tableData = res.data.list
+                this.total = res.data.total
+                return res
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+    },
 
+    getMachineModelInfoFromAftersale(row){
+      return getMachineModelInfoFromAftersale( row.nameplate)
+              .then((res) => {
+                this.iotMachineBasicFromAftersale = res.data.list[0]
+                return res
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+    },
+    dialogCloseCallback() {
+      //reset after dialog closed
+      this.iotDetailVisible = false;
+      this.listQuery.nameplate = "";
+    },
   },
 }
 </script>
